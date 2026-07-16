@@ -1,4 +1,4 @@
-﻿import type React from "react";
+import type React from "react";
 
 export interface UploadBoxProps {
     files: File[];
@@ -19,6 +19,19 @@ export interface ValidationErrorDetail {
     message: string;
 }
 
+export interface SheetValidationSummary {
+    sheetsChecked: number;
+    presentSheets: string[];
+    missingSheets: string[];
+}
+
+export interface FieldValidationSummary {
+    passedFieldChecks: number;
+    failedFieldChecks: number;
+    passedFields: ValidationErrorDetail[];
+    failedFields: ValidationErrorDetail[];
+}
+
 export interface FileValidationResult {
     fileName: string;
     fileType?: string;
@@ -28,8 +41,8 @@ export interface FileValidationResult {
     totalChecks: number;
     passedChecks: number;
     failedChecks: number;
-    errorCount: number;
-    errors: ValidationErrorDetail[];
+    sheetValidations: SheetValidationSummary;
+    fieldValidations: FieldValidationSummary;
 }
 
 export interface ValidationResponse {
