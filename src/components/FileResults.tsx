@@ -81,7 +81,7 @@ const FileAccordion = ({ file }: { file: FileValidationResult }) => {
                                         </div>
                                         <div>
                                             <div className="text-xs uppercase tracking-wide text-rose-500">Cell</div>
-                                            <div className="text-sm font-medium text-slate-800">{error.column ?? "—"} {error.row ? `(${error.row})` : ""}</div>
+                                            <div className="text-sm font-medium text-slate-800">{error.cell ?? "—"}</div>
                                         </div>
                                         <div>
                                             <div className="text-xs uppercase tracking-wide text-rose-500">Field</div>
@@ -115,7 +115,7 @@ const FileAccordion = ({ file }: { file: FileValidationResult }) => {
                                         </div>
                                         <div>
                                             <div className="text-xs uppercase tracking-wide text-emerald-600/70">Cell</div>
-                                            <div className="text-sm font-medium text-emerald-900">{pass.column ?? "—"} {pass.row ? `(${pass.row})` : ""}</div>
+                                            <div className="text-sm font-medium text-emerald-900">{pass.cell ?? "—"}</div>
                                         </div>
                                         <div>
                                             <div className="text-xs uppercase tracking-wide text-emerald-600/70">Field</div>

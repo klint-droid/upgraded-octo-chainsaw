@@ -12,8 +12,7 @@ export interface RulesUploadBoxProps {
 
 export interface ValidationErrorDetail {
     sheet: string;
-    row?: number;
-    column?: string;
+    cell?: string;
     field?: string;
     value?: string;
     message: string;
