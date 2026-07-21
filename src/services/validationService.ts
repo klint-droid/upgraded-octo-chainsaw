@@ -1,17 +1,17 @@
-import type { ValidationResponse } from "../types/validation";
+import type { FileValidationResult } from "../types/validation";
 import { apiClient } from "./apiClient";
 
-export async function validateBatch(
-    excelFiles: File[],
+export async function validateSingle(
+    excelFile: File,
     rulesFile: File
-): Promise<ValidationResponse> {
+): Promise<FileValidationResult> {
     const formData = new FormData();
 
-    excelFiles.forEach((file) => formData.append("excelFiles", file));
-    formData.append("rulesFile", rulesFile);
-    
-    const response = await apiClient.post<ValidationResponse>(
-        "/api/excel/validate-batch",
+    formData.append("file", excelFile);
+    formData.append("rules", rulesFile);
+
+    const response = await apiClient.post<FileValidationResult>(
+        "/api/excel/validate",
         formData
     );
 

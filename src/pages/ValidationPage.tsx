@@ -4,30 +4,30 @@ import Header from "../components/Header";
 import UploadSection from "../components/UploadSection";
 import ValidationSummary from "../components/ValidationSummary";
 import FileResults from "../components/FileResults";
-import type { ValidationResponse } from "../types/validation";
-import { validateBatch } from "../services/validationService";
+import type { FileValidationResult } from "../types/validation";
+import { validateSingle } from "../services/validationService";
 
 const ValidationPage = () => {
-    const [excelFiles, setExcelFiles] = useState<File[]>([]);
+    const [excelFile, setExcelFile] = useState<File | null>(null);
     const [rulesFile, setRulesFile] = useState<File | null>(null);
-    const [validationResponse, setValidationResponse] = useState<ValidationResponse | null>(null);
+    const [validationResult, setValidationResult] = useState<FileValidationResult | null>(null);
     const [isLoading, setIsLoading] = useState(false);
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-    const isReady = excelFiles.length > 0 && Boolean(rulesFile);
+    const isReady = Boolean(excelFile) && Boolean(rulesFile);
 
     const handleValidate = async () => {
-        if (!isReady || !rulesFile) {
+        if (!isReady || !excelFile || !rulesFile) {
             return;
         }
 
         setIsLoading(true);
         setErrorMessage(null);
-        setValidationResponse(null);
+        setValidationResult(null);
 
         try {
-            const json = await validateBatch(excelFiles, rulesFile);
-            setValidationResponse(json);
+            const result = await validateSingle(excelFile, rulesFile);
+            setValidationResult(result);
         } catch (error) {
             setErrorMessage("Validation failed to complete. Please try again.");
             console.error(error);
@@ -37,9 +37,9 @@ const ValidationPage = () => {
     };
 
     const handleReset = () => {
-        setExcelFiles([]);
+        setExcelFile(null);
         setRulesFile(null);
-        setValidationResponse(null);
+        setValidationResult(null);
         setErrorMessage(null);
         setIsLoading(false);
     };
@@ -50,8 +50,8 @@ const ValidationPage = () => {
 
             <Container maxWidth="lg" className="pt-10 pb-10">
                 <UploadSection
-                    excelFiles={excelFiles}
-                    setExcelFiles={setExcelFiles}
+                    excelFile={excelFile}
+                    setExcelFile={setExcelFile}
                     rulesFile={rulesFile}
                     setRulesFile={setRulesFile}
                     onValidate={handleValidate}
@@ -65,10 +65,10 @@ const ValidationPage = () => {
                     </div>
                 )}
 
-                {validationResponse && (
+                {validationResult && (
                     <>
-                        <ValidationSummary summary={validationResponse} />
-                        <FileResults validationResponse={validationResponse} onReset={handleReset} />
+                        <ValidationSummary result={validationResult} />
+                        <FileResults result={validationResult} onReset={handleReset} />
                     </>
                 )}
             </Container>
