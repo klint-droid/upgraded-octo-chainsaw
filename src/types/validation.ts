@@ -18,10 +18,20 @@ export interface ValidationErrorDetail {
     message: string;
 }
 
+export interface SheetValidationDetail {
+    sheetName: string;
+    status: string;
+    passedChecks: number;
+    failedChecks: number;
+    passedFields: ValidationErrorDetail[];
+    failedFields: ValidationErrorDetail[];
+}
+
 export interface SheetValidationSummary {
     sheetsChecked: number;
     presentSheets: string[];
     missingSheets: string[];
+    sheetDetails?: SheetValidationDetail[];
 }
 
 export interface FieldValidationSummary {
